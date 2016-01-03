@@ -221,6 +221,7 @@ function newInputFilter() {
             logolink = 'http://playstore-api.herokuapp.com/playstore/apps/' + appActivity;
 
             /* If the app is available on playstore get it's name, if there is not, use drawable name */
+            console.log($.getValues(logolink));
             if ($.getValues(logolink) !== null) {
                 if ($.getValues(logolink).appName) {
                     appName = '<span class="appname">' + $.getValues(logolink).appName.replace(' - Android Apps on Google Play', '') + '</span>';
