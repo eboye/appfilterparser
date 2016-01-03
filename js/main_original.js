@@ -282,10 +282,11 @@ $('body').on('click', 'table h4', function () {
     var appTitle = $(this).find('.appname').text(),
         thisID = $(this).attr('data-id'),
         appID = 'http://playstore-api.herokuapp.com/playstore/apps/' + thisID,
+        psURL = 'https://play.google.com/store/apps/details?id=' + thisID,
 
         logoImage = $(this).parent().parent().find('img').attr('src'),
         appDev = $.getValues(appID) ? $.getValues(appID).developer : null,
-        appUrl = $.getValues(appID) ? $.getValues(appID).playStoreUrl : null,
+        appUrl = $.getValues(appID) ? $.getValues(appID).playStoreUrl : psURL,
         appdesc = $.getValues(appID) ? $.getValues(appID).description : null,
         appScore = $.getValues(appID) ? $.getValues(appID).score : null,
         appComponent = $(this).parent().parent().find('.component').text(),
@@ -309,8 +310,8 @@ $('body').on('click', 'table h4', function () {
         drawablexml +
         '</pre></h6><h6><pre>' +
         iconpackxml +
-        '</pre></h6><a href="https://play.google.com/store/apps/details?id=' +
-        thisID +
+        '</pre></h6><a href="' +
+        appUrl +
         '" target="_blank" title="Click to open image in new tab"><img class="media-object pull-left" src="' +
         logoImage +
         '"/></a><h4><strong>Developed by:</strong> ' +
