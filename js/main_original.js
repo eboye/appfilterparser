@@ -1,4 +1,4 @@
-/*global $ */
+/*global $, console */
 /*!
  * AppFilter Parser v0.9.0 (http://srbodroid.com/longshadow/parser/)
  * Copyright 2011-2014 SrboDroid
@@ -221,7 +221,8 @@ function newInputFilter() {
             logolink = 'http://playstore-api.herokuapp.com/playstore/apps/' + appActivity;
 
             /* If the app is available on playstore get it's name, if there is not, use drawable name */
-            if ($.getValues(logolink)) {
+            console.log($.getValues(logolink));
+            if ($.getValues(logolink) !== null) {
                 if ($.getValues(logolink).appName) {
                     appName = '<span class="appname">' + $.getValues(logolink).appName.replace(' - Android Apps on Google Play', '') + '</span>';
                 } else {
