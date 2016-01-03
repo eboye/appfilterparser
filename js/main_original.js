@@ -203,8 +203,6 @@ function newInputFilter() {
 
         xml = $.xml2json(parsedxml);
 
-        componentContains = $('.original_results .component:contains("' + xml.item[i].component + '")');
-
         /* Now populate the table with results */
 
         for (i = 0, j = xml.item.length; i < j; i++) {
@@ -223,14 +221,18 @@ function newInputFilter() {
             logolink = 'http://playstore-api.herokuapp.com/playstore/apps/' + appActivity;
 
             /* If the app is available on playstore get it's name, if there is not, use drawable name */
-
-            if ($.getValues(logolink).appName) {
-                appName = '<span class="appname">' + $.getValues(logolink).appName.replace(' - Android Apps on Google Play', '') + '</span>';
+            if ($.getValues(logolink)) {
+                if ($.getValues(logolink).appName) {
+                    appName = '<span class="appname">' + $.getValues(logolink).appName.replace(' - Android Apps on Google Play', '') + '</span>';
+                } else {
+                    appName = '<span class="appname">' + xml.item[i].drawable + '</span>';
+                }
             } else {
                 appName = '<span class="appname">' + xml.item[i].drawable + '</span>';
             }
 
             /* Now the main part! Check if requested activity is already defined, mark original in red as well as new one and populate tables  */
+            componentContains = $('.original_results .component:contains("' + xml.item[i].component + '")');
 
             if (componentContains.length !== 0) {
 
@@ -278,15 +280,14 @@ $('.begin_parse_without_icons').on('click', function (e) {
 $('body').on('click', 'table h4', function () {
     'use strict';
     var appTitle = $(this).find('.appname').text(),
+        thisID = $(this).attr('data-id'),
+        appID = 'http://playstore-api.herokuapp.com/playstore/apps/' + thisID,
 
-        appID = 'http://playstore-api.herokuapp.com/playstore/apps/' + $(this).attr('data-id'),
-
-        appDev = $.getValues(appID).developer,
         logoImage = $(this).parent().parent().find('img').attr('src'),
-
-        appUrl = $.getValues(appID).playStoreUrl,
-        appdesc = $.getValues(appID).description,
-        appScore = $.getValues(appID).score,
+        appDev = $.getValues(appID) ? $.getValues(appID).developer : null,
+        appUrl = $.getValues(appID) ? $.getValues(appID).playStoreUrl : null,
+        appdesc = $.getValues(appID) ? $.getValues(appID).description : null,
+        appScore = $.getValues(appID) ? $.getValues(appID).score : null,
         appComponent = $(this).parent().parent().find('.component').text(),
 
         drawable = $(this).attr('data-id').replace(/\./mgi, '_').toLowerCase(),
@@ -297,7 +298,7 @@ $('body').on('click', 'table h4', function () {
         appdescEl = $('#appdesc');
 
     if (logoImage === 'img/na.png') {
-        logoImage = $.getValues(appID).logo;
+        logoImage = $.getValues(appID) ? $.getValues(appID).logo : 'img/na.png';
     }
 
     desccontent = '<h6><strong>App Activity:</strong></h6><h6><pre>' +
@@ -308,8 +309,8 @@ $('body').on('click', 'table h4', function () {
         drawablexml +
         '</pre></h6><h6><pre>' +
         iconpackxml +
-        '</pre></h6><a href="' +
-        logoImage +
+        '</pre></h6><a href="https://play.google.com/store/apps/details?id=' +
+        thisID +
         '" target="_blank" title="Click to open image in new tab"><img class="media-object pull-left" src="' +
         logoImage +
         '"/></a><h4><strong>Developed by:</strong> ' +
