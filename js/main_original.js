@@ -221,7 +221,6 @@ function newInputFilter() {
             logolink = 'http://playstore-api.herokuapp.com/playstore/apps/' + appActivity;
 
             /* If the app is available on playstore get it's name, if there is not, use drawable name */
-            console.log($.getValues(logolink));
             if ($.getValues(logolink) !== null) {
                 if ($.getValues(logolink).appName) {
                     appName = '<span class="appname">' + $.getValues(logolink).appName.replace(' - Android Apps on Google Play', '') + '</span>';
@@ -286,10 +285,10 @@ $('body').on('click', 'table h4', function () {
         psURL = 'https://play.google.com/store/apps/details?id=' + thisID,
 
         logoImage = $(this).parent().parent().find('img').attr('src'),
-        appDev = $.getValues(appID) ? $.getValues(appID).developer : null,
-        appUrl = $.getValues(appID) ? $.getValues(appID).playStoreUrl : psURL,
-        appdesc = $.getValues(appID) ? $.getValues(appID).description : null,
-        appScore = $.getValues(appID) ? $.getValues(appID).score : null,
+        appDev = $.getValues(appID) !== null ? $.getValues(appID).developer : '',
+        appUrl = $.getValues(appID) !== null ? $.getValues(appID).playStoreUrl : psURL,
+        appdesc = $.getValues(appID) !== null ? $.getValues(appID).description : '',
+        appScore = $.getValues(appID) !== null ? $.getValues(appID).score : '',
         appComponent = $(this).parent().parent().find('.component').text(),
 
         drawable = $(this).attr('data-id').replace(/\./mgi, '_').toLowerCase(),
